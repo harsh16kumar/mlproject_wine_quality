@@ -37,4 +37,5 @@ pytest
 
 # OS compatibility helpers
 python-dotenv
+kaggle
 -e .
