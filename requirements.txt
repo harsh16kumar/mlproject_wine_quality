@@ -1,0 +1,40 @@
+# Core libraries
+numpy
+pandas
+scikit-learn
+
+# Visualization
+matplotlib
+seaborn
+
+# Config management
+pyyaml
+ensure       # includes ConfigBox from box
+box        # dependency for ConfigBox (ensure auto-installs this, but good to list)
+
+# Model saving/loading
+joblib
+
+# Logging
+loguru
+
+# Serving with FastAPI
+fastapi
+uvicorn
+
+# Jupyter for notebooks
+jupyter
+
+# Experiment tracking (optional but useful)
+mlflow
+
+# Code quality (optional)
+black
+isort
+
+# Testing (optional)
+pytest
+
+# OS compatibility helpers
+python-dotenv
+-e .
