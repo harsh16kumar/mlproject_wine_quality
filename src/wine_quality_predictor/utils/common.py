@@ -3,7 +3,7 @@ import json
 import yaml
 import joblib
 from pathlib import Path
-from typing import Any
+from typing import (Any,Union)
 from ensure import ensure_annotations
 from box import ConfigBox
 from box.exceptions import BoxValueError
@@ -35,7 +35,7 @@ def save_json(path: Path, data: dict) -> None:
 @ensure_annotations
 def read_yaml(path: Path) -> ConfigBox:
     try:
-        with open(path, 'r') as f:
+        with open(path,'r') as f:
             content = yaml.safe_load(f)
             logger.info(f"Loaded YAML file from: {path}")
             return ConfigBox(content)
@@ -47,12 +47,12 @@ def read_yaml(path: Path) -> ConfigBox:
         raise e
 
 
-@ensure_annotations
-def make_directories(paths: list[Path], verbose=True) -> None:
-    for path in paths:
-        os.makedirs(path, exist_ok=True)
-        if verbose:
-            logger.info(f"Created directory: {path}")
+# @ensure_annotations
+def make_directory(path: Path, verbose=True) -> None:
+    path = Path(path)
+    os.makedirs(path, exist_ok=True)
+    if verbose:
+        logger.info(f"Created directory: {path}")
 
 
 @ensure_annotations

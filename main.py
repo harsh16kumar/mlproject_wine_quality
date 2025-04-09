@@ -1,3 +1,4 @@
-from wine_quality_predictor import logger
+from wine_quality_predictor.pipeline.training_pipeline import main as data_ingestion_stage
 
-logger.info("Welcome to our custom login")
+if __name__ == "__main__":
+    data_ingestion_stage()

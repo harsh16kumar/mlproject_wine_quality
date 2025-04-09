@@ -10,9 +10,9 @@ seaborn
 # Config management
 pyyaml
 ensure       # includes ConfigBox from box
-box        # dependency for ConfigBox (ensure auto-installs this, but good to list)
+python-box==6.0.2        # dependency for ConfigBox (ensure auto-installs this, but good to list)
 
-# Model saving/loading
+# Model saving/loadingp
 joblib
 
 # Logging
