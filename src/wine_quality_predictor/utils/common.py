@@ -55,8 +55,8 @@ def make_directory(path: Path, verbose=True) -> None:
         logger.info(f"Created directory: {path}")
 
 
-@ensure_annotations
-def save_bin(path: Path, data: Any) -> None:
+# @ensure_annotations
+def save_bin(path: Path, data) -> None:
     joblib.dump(value=data, filename=path)
     logger.info(f"Saved binary file at: {path}")
 

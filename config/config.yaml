@@ -11,3 +11,8 @@ data_validation:
   schema_file_path: schema.yaml
   status_file: artifacts/data_validation/status.txt
   unzip_data_path: artifacts/data_ingestion/unzipped_data/winequality-red.csv
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/unzipped_data/winequality-red.csv
+  scaler_path: artifacts/data_transformation/scaler.pkl
