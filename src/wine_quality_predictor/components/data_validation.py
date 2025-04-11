@@ -18,7 +18,7 @@ class DataValidation:
                 df = pd.read_csv(file, delimiter=';', quotechar='"')
                 df_columns = df.columns.tolist()
                 schema_columns = list(self.schema["columns"].keys())
-                print(df_columns)
+                # print(df_columns)
 
                 if df_columns != schema_columns:
                     raise Exception("Schema mismatch: columns do not match.")
