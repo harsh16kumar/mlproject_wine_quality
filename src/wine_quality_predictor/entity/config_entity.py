@@ -27,3 +27,7 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_path: Path
+
+@dataclass
+class DataVisualizationConfig:
+    data_path: Path

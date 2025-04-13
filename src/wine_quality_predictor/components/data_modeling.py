@@ -5,6 +5,8 @@ from src.wine_quality_predictor import logger
 from src.wine_quality_predictor.utils.common import make_directory, save_bin
 import pandas as pd
 from src.wine_quality_predictor.constants import *
+# from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
 
 class ModelTrainer:
     def __init__(self, config: ModelTrainerConfig):
@@ -20,9 +22,16 @@ class ModelTrainer:
         X_test = test_df.drop("quality", axis=1)
         y_test = test_df["quality"]
         # print(y_train.isna().sum())
-
-        logger.info("Training ElasticNet model...")
-        model = ElasticNet(alpha=0.2, l1_ratio=0.1, random_state=42)
+        #############################################################
+        # logger.info("Training ElasticNet model...")
+        # model = ElasticNet(alpha=0.2, l1_ratio=0.1, random_state=42)
+        #############################################################
+        # logger.info("Training Random Forest Regressor model...")
+        # model = RandomForestRegressor(n_estimators=100, random_state=42)
+        #############################################################
+        logger.info("Training XGBoost Regressor model...")
+        model = XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1, max_depth=6, random_state=42)
+        #############################################################
         model.fit(X_train, y_train)
 
         logger.info("Evaluating model...")
@@ -37,3 +46,5 @@ class ModelTrainer:
         make_directory(self.config.root_dir)
         save_bin(self.config.model_path, model)
         logger.info(f"Model saved to: {self.config.model_path}")
+        ##lets see accuracy
+        print(f"Accuracy: {r2*100:.2f}%")

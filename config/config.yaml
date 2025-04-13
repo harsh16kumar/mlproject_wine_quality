@@ -12,6 +12,9 @@ data_validation:
   status_file: artifacts/data_validation/status.txt
   unzip_data_path: artifacts/data_ingestion/unzipped_data/winequality-red.csv
 
+data_visualization:
+  data_path: artifacts/data_ingestion/unzipped_data/winequality-red.csv
+
 data_transformation:
   root_dir: artifacts/data_transformation
   data_path: artifacts/data_ingestion/unzipped_data/winequality-red.csv
@@ -22,3 +25,4 @@ model_trainer:
   train_data_path: artifacts/data_transformation/train.csv
   test_data_path: artifacts/data_transformation/test.csv
   model_path: artifacts/model_trainer/model.pkl
+

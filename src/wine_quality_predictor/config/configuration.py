@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 from wine_quality_predictor.utils.common import read_yaml, make_directory
 from wine_quality_predictor.constants import *
-from wine_quality_predictor.entity.config_entity import (DataIngestionConfig, DataValidationConfig,DataTransformationConfig ,ModelTrainerConfig)
+from wine_quality_predictor.entity.config_entity import (DataIngestionConfig, DataValidationConfig,DataTransformationConfig ,ModelTrainerConfig,DataVisualizationConfig)
 from wine_quality_predictor import logger
 
 
@@ -63,3 +63,7 @@ class ConfigurationManager:
             test_data_path=Path(config.test_data_path),
             model_path=Path(config.model_path)
         )
+    
+    def get_data_visualization_config(self) -> DataVisualizationConfig:
+        config = self.config.data_visualization
+        return DataVisualizationConfig(data_path=Path(config.data_path))

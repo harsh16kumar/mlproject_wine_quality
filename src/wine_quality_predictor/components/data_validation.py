@@ -50,40 +50,62 @@ class DataValidation:
         """
         Checks that columns have the correct data types according to schema.yaml.
         """
-        # try:
-        #     file = str(self.config.unzip_data_path)
-        #     if file.endswith(".csv"):
-        #         df = pd.read_csv(file)
-        #         for col, expected_type in self.schema["columns"].items():
-        #             if col not in['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
-        #                           'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH',
-        #                           'sulphates', 'alcohol'] and df[col].dtype != expected_type:
-        #                 logger.warning(f"Data type mismatch: Column '{col}' in {file} has incorrect data type.")
-        #                 return False
-        #     logger.info("All columns have correct data types.")
-        #     return True
-        # except Exception as e:
-        #     logger.error(f"Data type validation error: {e}")
-        #     return False
-        return True
+        try:
+            file = str(self.config.unzip_data_path)
+            if file.endswith(".csv"):
+                
+                df = pd.read_csv(file)
+                df.columns = df.columns.str.strip()  # Strips leading and trailing spaces from column names
+                for col, expected_type in self.schema["columns"].items():
+                    # print("standing outside loop")
+                    print("standing outside loop")
+                    print("came out brooooo")
+                    if df[col].dtype == expected_type:
+                        print("reaced inside loop")
+                        logger.warning(f"Data type mismatch: Column '{col}' in {file} has incorrect data type.")
+                        return False
+                    print("")
+            logger.info("All columns have correct data types.")
+            return True
+        except KeyError as e:
+                    logger.error(f"Column '{col}' is missing from the CSV file: {e}")
+                    return False
+        except Exception as e:
+            logger.error(f"Data type validation error: {e}")
+            return False
 
-    def validate_duplicates(self) -> bool:
-        """
-        Checks for any duplicate rows in the dataset.
-        """
-        # try:
-        #     file = str(self.config.unzip_data_path)
-        #     if file.endswith(".csv"):
-        #         df = pd.read_csv(file)
-        #         if df.duplicated().any():
-        #             logger.warning(f"Duplicates found in {file}")
-        #             return False
-        #     logger.info("No duplicate rows found.")
-        #     return True
-        # except Exception as e:
-        #     logger.error(f"Duplicate validation error: {e}")
-        #     return False
-        return True
+    # def validate_duplicates(self) -> bool:
+    #     # """
+    #     # Checks for any duplicate rows in the dataset.
+    #     # """
+    #     # try:
+    #     #     file = str(self.config.unzip_data_path)
+    #     #     if file.endswith(".csv"):
+    #     #         df = pd.read_csv(file)
+    #     #         if df.duplicated().any():
+    #     #             logger.warning(f"Duplicates found in {file}")
+    #     #             return False
+    #     #     logger.info("No duplicate rows found.")
+    #     #     return True
+    #     # except Exception as e:
+    #     #     logger.error(f"Duplicate validation error: {e}")
+    #     #     return False
+    #     return True
+
+    def remove_outliers_iqr(self,df: pd.DataFrame, columns: list) -> pd.DataFrame:
+        for col in columns:
+            Q1 = df[col].quantile(0.25)
+            Q3 = df[col].quantile(0.75)
+            IQR = Q3 - Q1
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+
+            original_size = df.shape[0]
+            df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+            logger.info(f"Removed outliers from {col}: {original_size - df.shape[0]} rows removed.")
+
+        return df
+
 
     def save_validation_status(self, status: bool):
         with open(self.config.STATUS_FILE, 'w') as f:
