@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 from wine_quality_predictor.utils.common import read_yaml, make_directory
 from wine_quality_predictor.constants import *
-from wine_quality_predictor.entity.config_entity import (DataIngestionConfig, DataValidationConfig)
+from wine_quality_predictor.entity.config_entity import (DataIngestionConfig, DataValidationConfig,DataTransformationConfig ,ModelTrainerConfig)
 from wine_quality_predictor import logger
 
 
@@ -44,4 +44,22 @@ class ConfigurationManager:
             unzip_data_path=Path(config.unzip_data_path),
             STATUS_FILE=Path(config.status_file),
             schema_file_path=Path(config.schema_file_path)
+        )
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        config = self.config.data_transformation
+
+        return DataTransformationConfig(
+            root_dir=Path(config.root_dir),
+            data_path=Path(config.data_path),
+            scaler_path=Path(config.scaler_path)
+        )
+    
+    def get_model_trainer_config(self) -> ModelTrainerConfig:
+        config = self.config.model_trainer
+
+        return ModelTrainerConfig(
+            root_dir=Path(config.root_dir),
+            train_data_path=Path(config.train_data_path),
+            test_data_path=Path(config.test_data_path),
+            model_path=Path(config.model_path)
         )
